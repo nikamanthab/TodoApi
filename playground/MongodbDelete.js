@@ -12,18 +12,18 @@ MongoClient.connect('mongodb://localhost:27017/TodoApp',{ useNewUrlParser: true 
 	const db = client.db('TodoApp'); ///
 
 	//delete Many
-	/*db.collection("Todos").deleteMany({ text: "eat dinner" }).then((result)=>{
+	db.collection("Todos").deleteMany({ text: "eat dinner" }).then((result)=>{
 		console.log(result);      //result: { n: 3, ok: 1 }// n -- no of docu del, ok -- no error occured
-	});*/
+	});
 
 	//delete one
-	/*db.collection("Todos").deleteOne({ text: "eat dinner" }).then((result)=>{
+	db.collection("Todos").deleteOne({ text: "eat dinner" }).then((result)=>{
 		console.log(result);      //result: { n: 1, ok: 1 }
-	});*/
+	});
 
 	//findOneAndDelete
 	db.collection("Todos").findOneAndDelete({text: "To develop my linkedin account"}).then((result)=>{
-		console.log(result);
+		console.log(result);      //it has a value object and ok:1
 	});
 	
 	client.close();
