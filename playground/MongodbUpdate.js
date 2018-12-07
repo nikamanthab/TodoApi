@@ -20,7 +20,7 @@ MongoClient.connect('mongodb://localhost:27017/TodoApp',{ useNewUrlParser: true 
 			returnOriginal:false
 		}).then((result)=>{
 			console.log(result);
-		})
+		});
 
 	client.close();
 });
