@@ -9,6 +9,7 @@ var app = express();
 
 app.use(bodyParser.json());
 
+//to add to the db
 app.post('/todos',(req,res)=>{
 	//console.log(req.body);
 	var todo = new Todos.Todos({
@@ -20,6 +21,15 @@ app.post('/todos',(req,res)=>{
 	},(err)=>{
 		res.send(err).status(400);
 	});
+});
+
+//to get the data from the db
+app.get('/todos',(req,res)=>{
+	Todos.Todos.find().then((todos)=>{
+		res.send({todos});
+	},(err)=>{
+		res.status(400).sen(err);
+	})
 });
 
 app.listen(3000,()=>{
