@@ -1,13 +1,15 @@
 var express = require('express');
 var bodyParser = require('body-parser');
+var mongodb = require('mongodb');
 
 const mongoose = require('./db/mongoose');
 const Todos = require('./models/Todos');
 const User = require('./models/User');
 
+const port = process.env.PORT || 3000;
 var app = express();
 
-app.use(bodyParser.json());
+app.use(bodyParser.json());////impotant
 
 //to add to the db
 app.post('/todos',(req,res)=>{
@@ -32,6 +34,27 @@ app.get('/todos',(req,res)=>{
 	})
 });
 
-app.listen(3000,()=>{
-	console.log('started on port 3000');
-})
+//get by passing id as below:
+//localhost:3000/todos/123
+app.get('/Todos/:id',(req,res)=>{
+	var id = req.params.id;
+	if(!mongodb.ObjectID.isValid(id)){
+		return res.status(404).send();
+	}
+
+	Todos.Todos.findById(id).then((todo)=>{
+		if(!todo){
+			return res.status(404).send();
+		}
+
+		res.send({todo});
+
+	})
+	.catch((err)=>{
+		res.status(400).send();
+	});
+});
+
+app.listen(port,()=>{
+	console.log(`started on port ${port}`);
+});
