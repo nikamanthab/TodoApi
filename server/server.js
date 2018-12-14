@@ -9,7 +9,7 @@ const User = require('./models/User');
 const port = process.env.PORT || 3000;
 var app = express();
 
-app.use(bodyParser.json());////impotant
+app.use(bodyParser.json());////important
 
 //to add to the db
 app.post('/todos',(req,res)=>{
@@ -54,6 +54,22 @@ app.get('/Todos/:id',(req,res)=>{
 		res.status(400).send();
 	});
 });
+
+app.delete('/Todos/:id',(req,res)=>{
+	var id = req.params.id;
+	console.log(id);
+	if(!mongodb.ObjectID.isValid(id)){
+		return res.status(404).send();
+	}
+	Todos.Todos.findByIdAndDelete(id).then((record)=>{
+		if(record === null)
+			return res.status(404).send();
+		res.send({record});
+	})
+	.catch((err)=>{
+		res.status(400).send();
+	})
+})
 
 app.listen(port,()=>{
 	console.log(`started on port ${port}`);
